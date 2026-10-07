@@ -1,0 +1,1022 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
+    <title>签售CUT · Juineii（xhs/vx同名）</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+        }
+
+        body {
+            background: #f4f7fb;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 1rem;
+        }
+
+        .dashboard {
+            max-width: 1400px;
+            width: 100%;
+            background: rgba(255,255,255,0.5);
+            backdrop-filter: blur(2px);
+            border-radius: 2rem;
+            padding: 1.5rem 1.5rem 2rem;
+            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.15);
+        }
+
+        .header-with-lang {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+        }
+
+        .title-area {
+            text-align: center;
+            width: 100%;
+        }
+        .main-title {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: #1e293b;
+            line-height: 1.2;
+            letter-spacing: -0.01em;
+        }
+        .sub-title {
+            font-size: 1rem;
+            font-weight: 500;
+            color: #475569;
+            letter-spacing: 0.3px;
+        }
+
+        .action-buttons {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+        }
+        .lang-switcher {
+            display: flex;
+            gap: 0.5rem;
+            background: rgba(255,255,255,0.7);
+            backdrop-filter: blur(4px);
+            padding: 0.35rem 0.8rem;
+            border-radius: 60px;
+            border: 1px solid rgba(148, 163, 184, 0.4);
+            box-shadow: 0 2px 6px rgba(0,0,0,0.02);
+            width: 100%;
+            justify-content: space-evenly;
+        }
+        .lang-btn {
+            background: transparent;
+            border: none;
+            font-size: 0.85rem;
+            font-weight: 500;
+            padding: 0.3rem 0.8rem;
+            border-radius: 40px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            color: #475569;
+            letter-spacing: 0.3px;
+            flex: 0 1 auto;
+        }
+        .lang-btn.active {
+            background: #1e4a7a;
+            color: white;
+            box-shadow: 0 2px 8px rgba(30,74,122,0.2);
+        }
+        .lang-btn:not(.active):hover {
+            background: #e2e8f0;
+            color: #0f172a;
+        }
+
+        .help-section {
+            background: #f8fafc;
+            border-radius: 1rem;
+            margin-bottom: 0.6rem;
+            border: 1px solid #e2e8f0;
+            overflow: hidden;
+            transition: all 0.2s ease;
+            width: 100%;
+        }
+        .help-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.8rem 1.2rem;
+            background: #ffffff;
+            cursor: pointer;
+            user-select: none;
+            border-bottom: 1px solid #eef2f6;
+        }
+        .help-header span {
+            font-weight: 600;
+            color: #1e4a7a;
+            font-size: 0.9rem;
+            letter-spacing: 0.3px;
+        }
+        .help-toggle {
+            font-size: 1.1rem;
+            transition: transform 0.2s;
+            color: #64748b;
+        }
+        .help-content {
+            padding: 1rem 1.2rem;
+            background: #fefefe;
+            font-size: 0.85rem;
+            color: #334155;
+            line-height: 1.5;
+            border-top: 1px solid #eef2f6;
+        }
+
+        .notice-line {
+            font-size: 0.7rem;
+            color: #64748b;
+            text-align: center;
+            margin: 0 0 1rem 0;
+            padding: 0 0.5rem;
+            line-height: 1.4;
+            letter-spacing: 0.3px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.2rem;
+            margin-bottom: 0.8rem;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: 1.5rem;
+            padding: 1.2rem 1.2rem;
+            box-shadow: 0 8px 20px -6px rgba(0, 32, 64, 0.08);
+            transition: all 0.2s ease;
+            border: 1px solid rgba(226, 232, 240, 0.6);
+            backdrop-filter: blur(4px);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .stat-label {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.02em;
+            color: #64748b;
+            font-weight: 500;
+            margin-bottom: 0.4rem;
+        }
+        .threshold-label-wrapper {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+        }
+        .label-text {
+            font-size: 0.85rem;
+            letter-spacing: 0.02em;
+            color: #64748b;
+            font-weight: 500;
+        }
+
+        .stat-value {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: #0f172a;
+            line-height: 1.2;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .stat-value input {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: #0f172a;
+            border: none;
+            background: #f1f5f9;
+            padding: 0.2rem 0.8rem;
+            width: 130px;
+            border-radius: 1rem;
+            outline: 2px solid transparent;
+            transition: outline 0.15s, background 0.15s;
+            font-family: inherit;
+        }
+
+        .stat-value input:focus {
+            outline: 2px solid #94a3b8;
+            background: #ffffff;
+        }
+
+        .readonly-value {
+            background: #f1f5f9;
+            padding: 0.2rem 1.2rem;
+            border-radius: 1rem;
+            color: #1e293b;
+            font-size: 1.8rem;
+            min-width: 80px;
+            text-align: center;
+            border: 1px solid #e2e8f0;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.02);
+        }
+
+        .cut-value {
+            background: #e6f0ff;
+            color: #1e4a7a;
+            font-weight: 700;
+        }
+
+        .total-value {
+            background: #f0f3f8;
+            color: #0b3b5c;
+            font-weight: 600;
+        }
+
+        .table-section {
+            background: white;
+            border-radius: 1.8rem;
+            padding: 1.5rem;
+            box-shadow: 0 8px 26px -8px rgba(0, 34, 68, 0.1);
+            border: 1px solid #e9eef3;
+        }
+
+        .table-header {
+            display: flex;
+            flex-direction: column;
+            align-items: stretch;
+            margin-bottom: 1.2rem;
+            gap: 0.8rem;
+        }
+
+        .header-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .table-header h2 {
+            font-size: 1.3rem;
+            font-weight: 550;
+            color: #1e293b;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            flex-wrap: wrap;
+        }
+
+        .table-header h2 span {
+            background: #e9eef3;
+            padding: 0.2rem 0.8rem;
+            border-radius: 40px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: #475569;
+        }
+
+        .update-badge {
+            background: #dbeafe;
+            color: #1e4b8b;
+            padding: 0.3rem 0.8rem;
+            border-radius: 40px;
+            font-size: 0.7rem;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+            box-shadow: 0 2px 6px rgba(0,69,145,0.06);
+            white-space: nowrap;
+        }
+        .dot {
+            width: 6px;
+            height: 6px;
+            background: #86b9eb;
+            border-radius: 10px;
+            display: inline-block;
+            animation: pulse 1.8s infinite;
+        }
+        @keyframes pulse {
+            0% { opacity: 0.4; }
+            50% { opacity: 1; }
+            100% { opacity: 0.4; }
+        }
+
+        .sort-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        .sort-radio-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-evenly;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            background: #f0f5fa;
+            padding: 0.3rem 1rem;
+            border-radius: 40px;
+            border: 1px solid #dde3ea;
+            flex: 1;
+            min-width: 200px;
+        }
+        .reset-btn {
+            background: #f1f5f9;
+            border: 1px solid #cbd5e1;
+            border-radius: 40px;
+            padding: 0.3rem 1rem;
+            font-size: 0.75rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            color: #dc2626;
+            white-space: nowrap;
+            background: #fff5f5;
+            border-color: #fecaca;
+        }
+        .reset-btn:hover {
+            background: #fee2e2;
+            border-color: #f87171;
+        }
+
+        .sort-radio-container label {
+            font-weight: 500;
+            font-size: 0.9rem;
+            color: #2c3e50;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .sort-radio-container input[type="radio"] {
+            appearance: none;
+            -webkit-appearance: none;
+            width: 16px;
+            height: 16px;
+            border: 2px solid #94a3b8;
+            border-radius: 50%;
+            margin: 0;
+            background: white;
+            transition: 0.1s;
+            cursor: pointer;
+        }
+        .sort-radio-container input[type="radio"]:checked {
+            border: 5px solid #1e4a7a;
+            background: white;
+        }
+        .sort-radio-container input[type="radio"]:focus-visible {
+            outline: 2px solid #1e4a7a;
+            outline-offset: 2px;
+        }
+
+        /* 表格外层容器：禁止整体横向滚动，仅垂直滚动 */
+        .table-wrapper {
+            border-radius: 1.2rem;
+            border: 1px solid #ecf1f7;
+            background: #fafdff;
+            max-height: 400px;
+            overflow-y: auto;
+            overflow-x: hidden;
+            -webkit-overflow-scrolling: touch;
+            width: 100%;
+        }
+
+        /* 表格采用固定布局，列宽由类决定 */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.65rem;
+            table-layout: fixed;
+        }
+
+        /* 默认列宽（销量降序模式，共4列） */
+        .mode-sales th:nth-child(1), .mode-sales td:nth-child(1) { width: 14%; }  /* 序号 */
+        .mode-sales th:nth-child(2), .mode-sales td:nth-child(2) { width: 40%; }  /* 时间 */
+        .mode-sales th:nth-child(3), .mode-sales td:nth-child(3) { width: 27%; }  /* 来源 */
+        .mode-sales th:nth-child(4), .mode-sales td:nth-child(4) { width: 19%; }  /* 单笔 */
+
+        /* 时间倒序模式（有标注列，共5列） */
+        .mode-time th:nth-child(1), .mode-time td:nth-child(1) { width: 8%; }  /* 序号 */
+        .mode-time th:nth-child(2), .mode-time td:nth-child(2) { width: 38%; }  /* 时间 */
+        .mode-time th:nth-child(3), .mode-time td:nth-child(3) { width: 17%; }  /* 来源 */
+        .mode-time th:nth-child(4), .mode-time td:nth-child(4) { width: 13%; }  /* 单笔 */
+        .mode-time th:nth-child(5), .mode-time td:nth-child(5) { width: 24%; }  /* 标注按钮 */
+
+        th {
+            text-align: center;
+            padding: 0.9rem 1rem;
+            background: #f8fafd;
+            color: #334155;
+            font-weight: 600;
+            font-size: 0.65rem;
+            letter-spacing: 0.02em;
+            border-bottom: 1px solid #dde3ea;
+            position: sticky;
+            top: 0;
+            background-color: #f8fafd;
+            z-index: 10;
+        }
+
+        td {
+            padding: 0.8rem 1rem;
+            border-bottom: 1px solid #eef2f6;
+            color: #1f2a41;
+            font-size: 0.65rem;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        tbody tr:hover td {
+            background-color: #f0f7ff;
+            transition: background 0.15s;
+        }
+
+        .seq-number {
+            font-weight: 550;
+            color: #2c4e6e;
+            background: #f1f6fc;
+            display: inline-block;
+            text-align: center;
+            width: 24px;
+            border-radius: 20px;
+            font-size: 0.65rem;
+            line-height: 1.4;
+        }
+
+        .sales-positive {
+            color: #2b6e4f;
+            font-weight: 550;
+            background: #e3f2ed;
+            padding: 0.1rem 0.5rem;
+            border-radius: 30px;
+            display: inline-block;
+            font-size: 0.65rem;
+        }
+
+        .sales-negative {
+            color: #b13e4b;
+            font-weight: 550;
+            background: #ffe9eb;
+            padding: 0.1rem 0.5rem;
+            border-radius: 30px;
+            display: inline-block;
+            font-size: 0.65rem;
+        }
+
+        .watermark-btn {
+            background: #f1f5f9;
+            border: 1px solid #cbd5e1;
+            border-radius: 24px;
+            padding: 0.2rem 0.7rem;
+            font-size: 0.6rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: 0.1s;
+            white-space: nowrap;
+            color: #2c3e50;
+        }
+        .watermark-btn.active {
+            background: #7c3aed;
+            border-color: #5b21b6;
+            color: white;
+        }
+
+        /* 时间列和来源列内部滚动（不换行） */
+        .table-wrapper td:nth-child(2),
+        .table-wrapper td:nth-child(3) {
+            white-space: nowrap;
+            overflow-x: auto;
+            scrollbar-width: thin;
+            -webkit-overflow-scrolling: touch;
+            max-width: 100%;
+        }
+        /* 仅来源列保留手感提示 */
+        .table-wrapper td:nth-child(3) {
+            cursor: grab;
+        }
+        .table-wrapper td:nth-child(3):active {
+            cursor: grabbing;
+        }
+
+        .empty-row td {
+            padding: 2rem;
+            text-align: center;
+            color: #94a3b8;
+            font-style: italic;
+        }
+
+        .footer-note {
+            margin-top: 0.8rem;
+            font-size: 0.75rem;
+            color: #94a3b8;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        /* 移动端适配：同样使用固定列宽，禁止整体横向滚动 */
+        @media screen and (max-width: 640px) {
+            .dashboard { padding: 1rem; border-radius: 1.5rem; }
+            .stats-grid { grid-template-columns: 1fr 1fr; gap: 0.8rem; }
+            .stat-card:nth-child(1) { order: 0; }
+            .stat-card:nth-child(2) { order: 1; }
+            .stat-card:nth-child(3) { order: 2; }
+            .stat-card:nth-child(4) { order: 3; }
+            .stat-card { padding: 0.9rem 1rem; }
+            .stat-value { font-size: 1.5rem; }
+            .stat-value input { font-size: 1.4rem; width: 90px; }
+            .readonly-value { font-size: 1.4rem; min-width: 70px; }
+            .table-section { padding: 0.8rem; }
+            th, td { padding: 0.5rem 0.3rem; font-size: 0.65rem; }
+            .seq-number { font-size: 0.6rem; width: 20px; }
+            .watermark-btn { padding: 0.15rem 0.5rem; font-size: 0.55rem; }
+            .main-title { font-size: 1.4rem; }
+            .sub-title { font-size: 0.85rem; }
+            .lang-switcher { padding: 0.2rem 0.4rem; }
+            .lang-btn { font-size: 0.75rem; padding: 0.2rem 0.5rem; }
+            .help-header span { font-size: 0.85rem; }
+            .help-content { font-size: 0.78rem; padding: 0.8rem 1rem; }
+            .notice-line { font-size: 0.65rem; margin-bottom: 0.8rem; }
+            .sort-row { flex-direction: column; align-items: stretch; }
+            .sort-radio-container { width: 100%; justify-content: space-evenly; }
+            .reset-btn { text-align: center; }
+            .update-badge { font-size: 0.6rem; padding: 0.2rem 0.6rem; }
+
+            /* 移动端同样继承列宽比例，禁止整体横向滚动 */
+            .table-wrapper {
+                overflow-x: hidden;
+            }
+            .table-wrapper td:nth-child(2),
+            .table-wrapper td:nth-child(3) {
+                overflow-x: auto;
+                white-space: nowrap;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="dashboard">
+    <div class="header-with-lang">
+        <div class="title-area">
+            <div class="main-title" id="mainTitle">加载中......</div>
+            <div class="sub-title" id="subTitle">加载中......</div>
+        </div>
+        <div class="action-buttons">
+            <div class="lang-switcher">
+                <button class="lang-btn active" data-lang="zh">中文</button>
+                <button class="lang-btn" data-lang="en">English</button>
+                <button class="lang-btn" data-lang="ko">한국어</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="help-section" id="helpSection">
+        <div class="help-header" id="helpHeader">
+            <span id="helpTitleSpan">使用说明</span>
+            <span class="help-toggle" id="helpToggleIcon">▼</span>
+        </div>
+        <div class="help-content" id="helpContent" style="display: none;"></div>
+    </div>
+
+    <div class="notice-line" id="noticeLine">请勿分享给他人或进行二次售卖，如发现非我们团队人员在盗用售卖，加我微信（<strong>nsxnso</strong>）说明情况可送一场实时销量。</div>
+
+    <div class="stats-grid">
+        <div class="stat-card">
+            <div class="stat-label" id="statLabelTotal">总销量</div>
+            <div class="stat-value"><span class="readonly-value total-value" id="totalSalesDisplay">0</span></div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-label" id="statLabelQuota">名额人数</div>
+            <div class="stat-value">
+                <span class="readonly-value" id="quotaDisplay">--</span>
+            </div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-label"><div class="threshold-label-wrapper"><span class="label-text" id="thresholdLabelText">注水阈值</span></div></div>
+            <div class="stat-value"><input type="number" id="thresholdInput" min="0" value="0" step="1"></div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-label" id="statLabelCut">推荐 cut</div>
+            <div class="stat-value"><span class="readonly-value cut-value" id="cutDisplay">—</span></div>
+        </div>
+    </div>
+
+    <div class="table-section">
+        <div class="table-header">
+            <div class="header-row">
+                <h2><span id="tableTitlePrefix">销量变化实时记录</span><span id="rowCountBadge">0 条</span></h2>
+                <div class="update-badge">
+                    <span class="dot"></span>
+                    <span id="lastUpdate">更新于 等待数据…</span>
+                </div>
+            </div>
+            <div class="sort-row">
+                <div class="sort-radio-container">
+                    <label>
+                        <input type="radio" name="sortOrder" value="timeDesc" checked>
+                        <span id="sortTimeDescLabel">时间倒序</span>
+                    </label>
+                    <label>
+                        <input type="radio" name="sortOrder" value="salesDesc">
+                        <span id="sortSalesDescLabel">销量降序</span>
+                    </label>
+                </div>
+                <button class="reset-btn" id="resetManualBtn">重置手动标记</button>
+            </div>
+        </div>
+        <div class="table-wrapper" id="tableWrapper">
+            <table id="dataTable">
+                <thead id="tableHeader"></thead>
+                <tbody id="tableBody"></tbody>
+            </table>
+        </div>
+        <div class="footer-note"><span id="footerRefreshHint">数据未更新可刷新网页</span></div>
+    </div>
+</div>
+
+<script>
+    (function(){
+        const ACTIVITY_CONFIG = { pageTitle: 'SEUNGHYUB影通', subTitle: '10.8 22:59截止', csvUrl: 'LEE_SEUNG_HYUB.csv', fixedQuota: 10, refreshInterval: 10000, defaultThreshold: 0 };
+
+        // ================= 多语言资源 =================
+        const LOCALES = {
+            zh: {
+                thSeq: "#", thTime: "时间", thSource: "来源", thUnit: "单笔", thAction: "标注",
+                statLabelThreshold: "注水阈值", statLabelQuota: "名额人数", statLabelCut: "推荐 cut", statLabelTotal: "总销量",
+                tableTitlePrefix: "销量变化实时记录", sortTimeDesc: "时间倒序", sortSalesDesc: "销量降序",
+                updatePrefix: "更新于", footerRefreshHint: "数据未更新可刷新网页", loadingText: "加载 CSV 数据中…", emptyText: "暂无销量记录，请确认CSV文件存在且非空", errorPrefix: "读取CSV失败: ", rowsCount: (c) => `${c} 条`,
+                helpTitle: "使用说明",
+                resetBtnText: "重置手动标记",
+                helpContentHtml: `
+                    <p>最后5-10分钟请监控销量变化补单，推荐本数根据数据来源内的所有数据计算，为中签中位数本数，仅作参考，不提供擦线本数；若名额人数有问题、数据长时间没更新，请及时联系我们（<strong>vx：nsxnso</strong>）。</p>
+                    <ul>
+                        <li><strong>注水阈值</strong>：输入非负整数。单笔销量绝对值大于该值的行会自动标记为“注水”（阈值为0时不自动标记）。手动标注会覆盖自动判断。</li>
+                        <li><strong>手动标注</strong>：在「时间倒序」模式中，每行右侧可手动“标注注水”或“取消注水”。手动状态会保存在本地，仅用户自己可见。</li>
+                        <li><strong>重置手动标记</strong>：点击按钮清除所有手动标注记录，所有行恢复为仅根据当前注水阈值判断。</li>
+                        <li><strong>推荐CUT</strong>：推荐CUT将基于所有未标注注水的销量计算。</li>
+                    </ul>
+                `,
+                noticeLine: '请勿分享给他人或进行二次售卖，如发现非我们团队人员在盗用售卖，加我微信（<strong>nsxnso</strong>）说明情况可送一场实时销量。'
+            },
+            en: {
+                thSeq: "#", thTime: "Time", thSource: "Source", thUnit: "Qty", thAction: "Mark",
+                statLabelThreshold: "Watermark Threshold", statLabelQuota: "Quota", statLabelCut: "Recommended Cut", statLabelTotal: "Total Sales",
+                tableTitlePrefix: "Real-time Log", sortTimeDesc: "Reverse Chronological", sortSalesDesc: "Sales Descending",
+                updatePrefix: "Updated", footerRefreshHint: "Refresh if no update", loadingText: "Loading CSV...", emptyText: "No records.", errorPrefix: "Load failed: ", rowsCount: (c) => `${c} entries`,
+                helpTitle: "How to Use",
+                resetBtnText: "Reset Manual Marks",
+                helpContentHtml: `
+                    <p>Monitor sales changes in the last 5–10 minutes to fill orders. The recommended quantity is the median from all data, for reference only; the minimum threshold is not provided. If quota information is incorrect or the data is outdated, please contact us promptly (<strong>WeChat: nsxnso</strong>).</p>
+                    <ul>
+                        <li><strong>Watermark Threshold</strong>: Enter a non-negative integer. Rows with an absolute sales value greater than this threshold are automatically marked as "watermarked" (threshold 0 disables auto-marking). Manual actions override auto‑rules.</li>
+                        <li><strong>Manual Marking</strong>: In "Reverse Chronological" mode, each row has a button to manually "Mark as Watermark" or "Unmark". Manual states are stored locally and visible only to the user.</li>
+                        <li><strong>Reset Manual Marks</strong>: Clears all manual marking records; all rows will then follow only the current watermark threshold.</li>
+                    </ul>
+                `,
+                noticeLine: 'Please do not share with others or resell. If you find someone outside our team stealing and selling, add my WeChat (<strong>nsxnso</strong>) to explain the situation and you will receive a free real-time sales update.'
+            },
+            ko: {
+                thSeq: "번호", thTime: "시간", thSource: "출처", thUnit: "수량", thAction: "표시",
+                statLabelThreshold: "임계값", statLabelQuota: "정원", statLabelCut: "추천 수량", statLabelTotal: "총 판매량",
+                tableTitlePrefix: "실시간 기록", sortTimeDesc: "시간 역순", sortSalesDesc: "판매량 내림차순",
+                updatePrefix: "갱신", footerRefreshHint: "새로고침", loadingText: "로딩 중...", emptyText: "데이터 없음", errorPrefix: "오류: ", rowsCount: (c) => `${c}개`,
+                helpTitle: "사용 방법",
+                resetBtnText: "수동 표시 초기화",
+                helpContentHtml: `
+                    <p>마지막 5~10분 동안 판매 추이를 확인하며 보충 주문해 주세요. 추천 수량은 데이터 내 모든 정보를 바탕으로 산출된 당첨 중간값으로, 참고용이며 최소 당첨 수량은 제공하지 않습니다. 정원 관련 문제가 있거나 데이터가 오래된 경우, 빠르게 연락해 주세요 (<strong>WeChat: nsxnso</strong>).</p>
+                    <ul>
+                        <li><strong>임계값</strong>: 음이 아닌 정수 입력. 절대값이 이 값을 초과하는 거래는 자동으로 '허위(watermarked)' 표시됨 (임계값 0은 자동 표시 안 함). 수동 설정은 자동 규칙보다 우선합니다.</li>
+                        <li><strong>수동 표시</strong>: '시간 역순' 모드에서 각 행의 버튼으로 "허위 표시" / "해제" 가능합니다. 수동 상태는 로컬에 저장되며 사용자 본인만 볼 수 있습니다.</li>
+                        <li><strong>수동 표시 초기화</strong>: 모든 수동 표시 기록을 삭제합니다. 이후 모든 행은 현재 임계값만 따릅니다.</li>
+                    </ul>
+                `,
+                noticeLine: '다른 사람과 공유하거나 재판매하지 마세요. 저희 팀 외부에서 도용 및 판매하는 사례를 발견하시면 WeChat(<strong>nsxnso</strong>)으로 상황을 설명해 주시면 무료 실시간 판매 정보를 보내드립니다.'
+            }
+        };
+
+        // DOM 元素引用
+        const elements = {
+            thresholdInput: document.getElementById('thresholdInput'),
+            quotaDisplay: document.getElementById('quotaDisplay'),
+            cutDisplay: document.getElementById('cutDisplay'),
+            totalSalesDisplay: document.getElementById('totalSalesDisplay'),
+            tableHeader: document.getElementById('tableHeader'),
+            tableBody: document.getElementById('tableBody'),
+            lastUpdateSpan: document.getElementById('lastUpdate'),
+            rowCountBadge: document.getElementById('rowCountBadge'),
+            radioTime: document.querySelector('input[name="sortOrder"][value="timeDesc"]'),
+            radioSales: document.querySelector('input[name="sortOrder"][value="salesDesc"]'),
+            thresholdLabelText: document.getElementById('thresholdLabelText'),
+            statLabelQuota: document.getElementById('statLabelQuota'),
+            statLabelCut: document.getElementById('statLabelCut'),
+            statLabelTotal: document.getElementById('statLabelTotal'),
+            tableTitlePrefix: document.getElementById('tableTitlePrefix'),
+            sortTimeDescLabel: document.getElementById('sortTimeDescLabel'),
+            sortSalesDescLabel: document.getElementById('sortSalesDescLabel'),
+            footerRefreshHint: document.getElementById('footerRefreshHint'),
+            helpContent: document.getElementById('helpContent'),
+            helpToggleIcon: document.getElementById('helpToggleIcon'),
+            helpHeader: document.getElementById('helpHeader'),
+            helpTitleSpan: document.getElementById('helpTitleSpan'),
+            resetManualBtn: document.getElementById('resetManualBtn'),
+            noticeLine: document.getElementById('noticeLine'),
+            tableWrapper: document.getElementById('tableWrapper')
+        };
+
+        // 独立存储（基于 csvUrl）
+        const storageSuffix = ACTIVITY_CONFIG.csvUrl.replace(/[^a-zA-Z0-9]/g, '_');
+        const OVERRIDE_STORAGE_KEY = `nct_watermark_overrides_v3_${storageSuffix}`;
+        const THRESHOLD_STORAGE_KEY = `nct_watermark_threshold_v1_${storageSuffix}`;
+
+        let currentLang = 'zh';
+        let originalData = [];
+        let sortMode = 'timeDesc';
+        let currentThreshold = ACTIVITY_CONFIG.defaultThreshold;
+        let lastError = null;
+        let lastSuccessTimeStr = null;
+        let isUpdating = false;
+        let manualOverrides = new Map();
+
+        function getStableId(row) { return `${row.time}|${row.product}`; }
+
+        function saveOverrides() {
+            const obj = {};
+            for (let [k,v] of manualOverrides.entries()) obj[k] = v;
+            localStorage.setItem(OVERRIDE_STORAGE_KEY, JSON.stringify(obj));
+        }
+        function loadOverrides() {
+            try {
+                const raw = localStorage.getItem(OVERRIDE_STORAGE_KEY);
+                if (raw) {
+                    const obj = JSON.parse(raw);
+                    manualOverrides.clear();
+                    for (let k in obj) manualOverrides.set(k, obj[k]);
+                } else manualOverrides.clear();
+            } catch(e) { manualOverrides.clear(); }
+        }
+        function saveThreshold() { localStorage.setItem(THRESHOLD_STORAGE_KEY, currentThreshold.toString()); }
+        function loadThreshold() {
+            try {
+                const saved = localStorage.getItem(THRESHOLD_STORAGE_KEY);
+                if (saved !== null && !isNaN(parseInt(saved,10))) {
+                    const val = parseInt(saved,10);
+                    currentThreshold = (val >= 0) ? val : 0;
+                } else currentThreshold = ACTIVITY_CONFIG.defaultThreshold;
+            } catch(e) { currentThreshold = ACTIVITY_CONFIG.defaultThreshold; }
+            elements.thresholdInput.value = currentThreshold;
+        }
+
+        function isWatermarked(row) {
+            const id = getStableId(row);
+            if (manualOverrides.has(id)) return manualOverrides.get(id);
+            if (currentThreshold === 0) return false;
+            return Math.abs(row.saleValue) > currentThreshold;
+        }
+
+        function toggleWatermark(row) {
+            const id = getStableId(row);
+            const newState = !isWatermarked(row);
+            manualOverrides.set(id, newState);
+            saveOverrides();
+            return true;
+        }
+
+        function resetManualOverrides() {
+            manualOverrides.clear();
+            saveOverrides();
+            updateStats();
+            renderTable();
+        }
+
+        function computeTotalSales() { return originalData.reduce((s, r) => s + r.saleValue, 0); }
+        function computeCutBasedOnClean() {
+            const filtered = originalData.filter(row => !isWatermarked(row));
+            if (!filtered.length || ACTIVITY_CONFIG.fixedQuota === 0) return '—';
+            const sum = filtered.reduce((a, b) => a + b.saleValue, 0);
+            return (sum / ACTIVITY_CONFIG.fixedQuota).toFixed(2);
+        }
+        function updateStats() {
+            elements.totalSalesDisplay.textContent = computeTotalSales();
+            elements.cutDisplay.textContent = computeCutBasedOnClean();
+        }
+
+        function t(key, dyn = null) {
+            let v = LOCALES[currentLang][key];
+            return typeof v === 'function' ? v(dyn) : (v || key);
+        }
+        function updateStaticTexts() {
+            elements.thresholdLabelText.innerHTML = t('statLabelThreshold');
+            elements.statLabelQuota.innerHTML = t('statLabelQuota');
+            elements.statLabelCut.innerHTML = t('statLabelCut');
+            elements.statLabelTotal.innerHTML = t('statLabelTotal');
+            elements.tableTitlePrefix.innerHTML = t('tableTitlePrefix');
+            elements.sortTimeDescLabel.innerHTML = t('sortTimeDesc');
+            elements.sortSalesDescLabel.innerHTML = t('sortSalesDesc');
+            elements.footerRefreshHint.innerHTML = t('footerRefreshHint');
+            elements.helpContent.innerHTML = t('helpContentHtml');
+            elements.helpTitleSpan.innerHTML = t('helpTitle');
+            elements.resetManualBtn.textContent = t('resetBtnText');
+            elements.noticeLine.innerHTML = t('noticeLine');
+            updateLastUpdateText();
+        }
+        function updateLastUpdateText() {
+            if (lastSuccessTimeStr) elements.lastUpdateSpan.textContent = `${t('updatePrefix')} ${lastSuccessTimeStr}`;
+            else if (lastError) elements.lastUpdateSpan.textContent = `${t('updatePrefix')} ${t('errorPrefix')}${lastError}`;
+            else elements.lastUpdateSpan.textContent = `${t('updatePrefix')} ${t('loadingText')}`;
+        }
+        function escapeHtml(str) { if(!str) return ''; return str.replace(/[&<>]/g, function(m){ if(m==='&') return '&amp;'; if(m==='<') return '&lt;'; if(m==='>') return '&gt;'; return m;}); }
+
+        // 根据当前排序模式设置表格容器的类，以应用对应的列宽
+        function setTableModeClass() {
+            if (elements.tableWrapper) {
+                if (sortMode === 'timeDesc') {
+                    elements.tableWrapper.classList.remove('mode-sales');
+                    elements.tableWrapper.classList.add('mode-time');
+                } else {
+                    elements.tableWrapper.classList.remove('mode-time');
+                    elements.tableWrapper.classList.add('mode-sales');
+                }
+            }
+        }
+
+        function renderTable() {
+            // 先更新列宽类
+            setTableModeClass();
+
+            if (lastError || !originalData.length) {
+                elements.tableHeader.innerHTML = '';
+                elements.tableBody.innerHTML = `<tr class="empty-row"><td colspan="${sortMode === 'timeDesc' ? 5 : 4}">${lastError ? t('errorPrefix')+lastError : t('emptyText')}<\/tr>`;
+                elements.rowCountBadge.textContent = t('rowsCount', 0);
+                return;
+            }
+            let displayRows = [...originalData];
+            const showActionCol = (sortMode === 'timeDesc');
+            if (sortMode === 'salesDesc') displayRows = displayRows.filter(row => !isWatermarked(row));
+            if (sortMode === 'timeDesc') displayRows = displayRows.reverse();
+            else displayRows.sort((a,b) => b.saleValue - a.saleValue);
+
+            let headerHtml = '</table>';
+            headerHtml += `<th>${t('thSeq')}</th><th>${t('thTime')}</th><th>${t('thSource')}</th><th>${t('thUnit')}</th>`;
+            if (showActionCol) headerHtml += `<th>${t('thAction')}</th>`;
+            headerHtml += '<\/tr>';
+            elements.tableHeader.innerHTML = headerHtml;
+
+            let bodyHtml = '';
+            for (let i = 0; i < displayRows.length; i++) {
+                const row = displayRows[i];
+                const saleClass = row.saleValue >= 0 ? 'sales-positive' : 'sales-negative';
+                const sign = row.saleValue > 0 ? '+' : '';
+                const marked = isWatermarked(row);
+                const origIdx = originalData.indexOf(row);
+                let actionBtn = '';
+                if (showActionCol) {
+                    const btnText = marked ? (currentLang === 'zh' ? '取消注水' : (currentLang === 'en' ? 'Unmark' : '해제')) : (currentLang === 'zh' ? '标注注水' : (currentLang === 'en' ? 'Mark' : '표시'));
+                    actionBtn = `<button class="watermark-btn ${marked ? 'active' : ''}" data-action="toggle" data-idx="${origIdx}">${btnText}</button>`;
+                }
+                bodyHtml += `<tr>
+                    <td style="text-align:center;"><span class="seq-number">${i+1}</span><\/td>
+                    <td>${escapeHtml(row.time)}<\/td>
+                    <td>${escapeHtml(row.product)}<\/td>
+                    <td><span class="${saleClass}">${sign}${row.saleValue}</span><\/td>
+                    ${showActionCol ? `<td style="text-align:center;">${actionBtn}<\/td>` : ''}
+                <\/tr>`;
+            }
+            elements.tableBody.innerHTML = bodyHtml;
+            elements.rowCountBadge.textContent = t('rowsCount', displayRows.length);
+        }
+
+        function handleTableClick(e) {
+            const btn = e.target.closest('.watermark-btn');
+            if (!btn) return;
+            e.preventDefault();
+            const idx = parseInt(btn.getAttribute('data-idx'), 10);
+            if (isNaN(idx) || !originalData[idx]) return;
+            toggleWatermark(originalData[idx]);
+            updateStats();
+            renderTable();
+        }
+
+        function parseCSV(text) {
+            let cleaned = text.replace(/^\uFEFF/, '');
+            const lines = cleaned.split(/\r?\n/).filter(l => l.trim());
+            if (lines.length < 2) return [];
+            const rows = [];
+            for (let i = 1; i < lines.length; i++) {
+                const cols = lines[i].split(',');
+                if (cols.length < 4) continue;
+                const time = cols[0].trim();
+                const product = cols[1].trim();
+                const saleRaw = cols[3].trim();
+                const saleValue = parseInt(saleRaw, 10);
+                if (isNaN(saleValue)) continue;
+                rows.push({ time, product, saleValue });
+            }
+            return rows;
+        }
+
+        async function fetchAndUpdate() {
+            if (isUpdating) return;
+            isUpdating = true;
+            try {
+                const url = `${ACTIVITY_CONFIG.csvUrl}?t=${Date.now()}`;
+                const response = await fetch(url, { cache: 'no-store' });
+                if (!response.ok) throw new Error(`HTTP ${response.status}`);
+                const csvText = await response.text();
+                const newData = parseCSV(csvText);
+                originalData = newData;
+                lastError = null;
+                const now = new Date();
+                lastSuccessTimeStr = now.toLocaleTimeString();
+                const validIds = new Set(originalData.map(row => getStableId(row)));
+                for (let id of manualOverrides.keys()) {
+                    if (!validIds.has(id)) manualOverrides.delete(id);
+                }
+                saveOverrides();
+                updateStats();
+                renderTable();
+                updateLastUpdateText();
+            } catch (err) {
+                lastError = err.message;
+                originalData = [];
+                lastSuccessTimeStr = null;
+                updateStats();
+                renderTable();
+                updateLastUpdateText();
+            } finally { isUpdating = false; }
+        }
+        function startAutoRefresh() { setTimeout(async function tick() { await fetchAndUpdate(); startAutoRefresh(); }, ACTIVITY_CONFIG.refreshInterval); }
+
+        function handleThresholdChange() {
+            let val = parseInt(elements.thresholdInput.value, 10);
+            if (isNaN(val) || val < 0) val = 0;
+            currentThreshold = val;
+            elements.thresholdInput.value = val;
+            saveThreshold();
+            updateStats();
+            renderTable();
+        }
+        function handleSortChange() {
+            sortMode = document.querySelector('input[name="sortOrder"]:checked').value;
+            renderTable();
+        }
+        function setLanguage(lang) {
+            currentLang = lang;
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                if (btn.getAttribute('data-lang') === lang) btn.classList.add('active');
+                else btn.classList.remove('active');
+            });
+            updateStaticTexts();
+            renderTable();
+            updateStats();
+            updateLastUpdateText();
+        }
+        let helpExpanded = false;
+        function toggleHelp() {
+            helpExpanded = !helpExpanded;
+            elements.helpContent.style.display = helpExpanded ? 'block' : 'none';
+            elements.helpToggleIcon.innerHTML = helpExpanded ? '▲' : '▼';
+        }
+
+        function init() {
+            document.getElementById('mainTitle').innerText = ACTIVITY_CONFIG.pageTitle;
+            document.getElementById('subTitle').innerText = ACTIVITY_CONFIG.subTitle;
+            elements.quotaDisplay.textContent = ACTIVITY_CONFIG.fixedQuota;
+
+            loadThreshold();
+            loadOverrides();
+
+            elements.thresholdInput.addEventListener('input', handleThresholdChange);
+            elements.thresholdInput.addEventListener('blur', handleThresholdChange);
+            document.querySelectorAll('input[name="sortOrder"]').forEach(radio => radio.addEventListener('change', handleSortChange));
+            document.querySelectorAll('.lang-btn').forEach(btn => btn.addEventListener('click', () => setLanguage(btn.getAttribute('data-lang'))));
+            elements.tableBody.addEventListener('click', handleTableClick);
+            elements.helpHeader.addEventListener('click', toggleHelp);
+            elements.resetManualBtn.addEventListener('click', () => resetManualOverrides());
+
+            updateStaticTexts();
+            // 初始化表格模式类
+            setTableModeClass();
+            fetchAndUpdate();
+            startAutoRefresh();
+        }
+        init();
+    })();
+</script>
+</body>
+</html>
